@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum EventStatus {
+  INGESTED
+  SUBMITTED_SOURCE_CHAIN
+  AWAITING_ATTESTATION
+  PROOF_READY
+  VERIFIED
+  VERIFICATION_FAILED
+  SETTLED
+}
+
+model Provider {
+  id        String   @id @default(cuid())
+  name      String
+  sourceType String
+  baseUrl   String
+  status    String   @default("CONNECTED")
+  createdAt DateTime @default(now())
+  stations  Station[]
+}
+
+model Station {
+  id                String   @id @default(cuid())
+  providerId        String
+  provider          Provider @relation(fields: [providerId], references: [id])
+  externalStationId String
+  name              String
+  lat               Float
+  lng               Float
+  metadata          Json?
+  rawEvents         RawEvent[]
+}
+
+model RawEvent {
+  id          String   @id @default(cuid())
+  stationId   String
+  station     Station  @relation(fields: [stationId], references: [id])
+  externalRef String
+  fetchedAt   DateTime @default(now())
+  rawPayload  Json
+  rawHash     String
+  event       Event?
+}
+
+model Event {
+  id                          String      @id @default(cuid())
+  rawEventId                  String      @unique
+  rawEvent                    RawEvent    @relation(fields: [rawEventId], references: [id])
+  parameter                   String
+  normalizedValue             Float
+  unit                        String
+  observedAt                  DateTime
+  eventHash                   String
+  status                      EventStatus @default(INGESTED)
+  sourceSubmission             SourceSubmission?
+  jobRuns                     JobRun[]
+}
+
+model SourceSubmission {
+  id                String   @id @default(cuid())
+  eventId           String   @unique
+  event             Event    @relation(fields: [eventId], references: [id])
+  sepoliaTxHash     String
+  sepoliaBlockNumber Int
+  chainKey          Int
+  submittedAt       DateTime @default(now())
+  attestation       Attestation?
+}
+
+model Attestation {
+  id                  String   @id @default(cuid())
+  sourceSubmissionId  String   @unique
+  sourceSubmission    SourceSubmission @relation(fields: [sourceSubmissionId], references: [id])
+  attestedAt          DateTime?
+  proverCached        Boolean  @default(false)
+  verification        Verification?
+}
+
+model Verification {
+  id               String   @id @default(cuid())
+  attestationId    String   @unique
+  attestation      Attestation @relation(fields: [attestationId], references: [id])
+  creditcoinTxHash String
+  precompileResult Boolean
+  verifiedAt       DateTime @default(now())
+}
+
+model Job {
+  id            String   @id @default(cuid())
+  name          String
+  conditionJson Json
+  actionJson    Json
+  isActive      Boolean  @default(true)
+  runs          JobRun[]
+}
+
+model JobRun {
+  id          String   @id @default(cuid())
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id])
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id])
+  triggeredAt DateTime @default(now())
+  status      String
+  settlement  Settlement?
+}
+
+model Settlement {
+  id               String   @id @default(cuid())
+  jobRunId         String   @unique
+  jobRun           JobRun   @relation(fields: [jobRunId], references: [id])
+  creditcoinTxHash String
+  actionType       String
+  amountOrState    String
+  status           String
+  explorerUrl      String
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actor      String
+  action     String
+  entityType String
+  entityId   String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+}

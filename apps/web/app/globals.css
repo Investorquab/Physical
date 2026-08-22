@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-bg: #0A0A0F;
+  --color-bg-raised: #131318;
+  --color-border: #232229;
+  --color-text: #E4E2EC;
+  --color-text-muted: #6B6878;
+
+  --color-accent: #8B5CF6;
+  --color-live: #22D3EE;
+  --color-verified: #34D399;
+  --color-pending: #FBBF24;
+  --color-error: #F87171;
+
+  --font-display: var(--font-display-raw);
+  --font-sans: var(--font-sans-raw);
+  --font-mono: var(--font-mono-raw);
+
+  --radius-base: 0.625rem;
+
+  --z-index-nav: 40;
+  --z-index-overlay: 50;
+  --z-index-modal: 60;
+  --z-index-toast: 70;
+
+  --container-content: 1200px;
+
+  --animate-trace-pulse: trace-pulse 3.6s ease-out infinite;
+  --animate-trace-travel: trace-travel 3.6s ease-out infinite;
+}
+
+@keyframes trace-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
+}
+
+@keyframes trace-travel {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+body {
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(to right, rgba(228, 226, 236, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(228, 226, 236, 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--color-text);
+}
+
+.text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
+
+/* Accessibility: visible keyboard focus, matches accent token */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip link: hidden until focused via keyboard */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 70;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-base);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: top 150ms ease-out;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Respect reduced motion: disable slide/fade entrance animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Safe-area support for fixed edge elements on notched devices */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+/* Survey marker pulse ring (live station indicator) */
+@keyframes marker-pulse {
+  0% {
+    r: 4;
+    opacity: 0.6;
+  }
+  100% {
+    r: 9;
+    opacity: 0;
+  }
+}
+.marker-pulse-ring {
+  animation: marker-pulse 2.4s ease-out infinite;
+  transform-origin: center;
+}

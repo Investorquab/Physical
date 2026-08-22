@@ -1,0 +1,21 @@
+{
+  "name": "physical",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "echo \"add per-package lint scripts as they're created\"",
+    "typecheck": "echo \"add per-package typecheck scripts as they're created\""
+  },
+  "devDependencies": {
+    "@prisma/client": "^7.9.1",
+    "@types/node": "^26.2.0",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.9.1"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.101.4"
+  }
+}

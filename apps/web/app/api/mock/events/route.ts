@@ -1,0 +1,86 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { PhysicalEvent } from "@physical/shared-types";
+
+const mockEvents: PhysicalEvent[] = [
+  {
+    id: "evt_1",
+    stationId: "stn_1",
+    providerId: "prov_1",
+    parameter: "pm25",
+    normalizedValue: 12.4,
+    unit: "ug/m3",
+    observedAt: "2026-08-19T08:00:00.000Z",
+    eventHash: "0x7a3f9c1e2b8d4f5a6c7e8b9d0a1c2e3f4a5b6c7d",
+    status: "SETTLED",
+    sourceTxHash: "0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b",
+    sourceBlockNumber: 1284031,
+    creditcoinVerificationTxHash: "0x9f8e7d6c5b4a3928170695a4b3c2d1e0f9a8b7c6",
+    explorerUrl: "https://explorer.creditcoin.org/tx/0x9f8e7d6c5b4a3928170695a4b3c2d1e0f9a8b7c6",
+  },
+  {
+    id: "evt_2",
+    stationId: "stn_2",
+    providerId: "prov_1",
+    parameter: "pm25",
+    normalizedValue: 34.1,
+    unit: "ug/m3",
+    observedAt: "2026-08-19T09:15:00.000Z",
+    eventHash: "0x2b4c6d8e0f1a3c5e7b9d1f3a5c7e9b1d3f5a7c9e",
+    status: "VERIFIED",
+    sourceTxHash: "0x3c5d7e9f1a2b4c6d8e0f1a3c5e7b9d1f3a5c7e9b",
+    sourceBlockNumber: 1284102,
+    creditcoinVerificationTxHash: "0x4d6e8f0a1b3c5d7e9f1a2b4c6d8e0f1a3c5e7b9d",
+    explorerUrl: "https://explorer.creditcoin.org/tx/0x4d6e8f0a1b3c5d7e9f1a2b4c6d8e0f1a3c5e7b9d",
+  },
+  {
+    id: "evt_3",
+    stationId: "stn_3",
+    providerId: "prov_2",
+    parameter: "pm25",
+    normalizedValue: 8.9,
+    unit: "ug/m3",
+    observedAt: "2026-08-19T09:42:00.000Z",
+    eventHash: "0x5e7f9a1b3c5d7e9f1a2b4c6d8e0f1a3c5e7b9d1f",
+    status: "AWAITING_ATTESTATION",
+    sourceTxHash: "0x6f8a0b2c4d6e8f0a1b3c5d7e9f1a2b4c6d8e0f1a",
+    sourceBlockNumber: 1284119,
+    creditcoinVerificationTxHash: null,
+    explorerUrl: null,
+  },
+  {
+    id: "evt_4",
+    stationId: "stn_4",
+    providerId: "prov_3",
+    parameter: "pm25",
+    normalizedValue: 41.7,
+    unit: "ug/m3",
+    observedAt: "2026-08-19T07:20:00.000Z",
+    eventHash: "0x7a9b1c3d5e7f9a1b3c5d7e9f1a2b4c6d8e0f1a3c",
+    status: "VERIFICATION_FAILED",
+    sourceTxHash: "0x8b0c2d4e6f8a0b2c4d6e8f0a1b3c5d7e9f1a2b4c",
+    sourceBlockNumber: 1283987,
+    creditcoinVerificationTxHash: null,
+    explorerUrl: null,
+  },
+  {
+    id: "evt_5",
+    stationId: "stn_1",
+    providerId: "prov_1",
+    parameter: "pm25",
+    normalizedValue: 15.2,
+    unit: "ug/m3",
+    observedAt: "2026-08-19T10:05:00.000Z",
+    eventHash: "0x9c1d3e5f7a9c1d3e5f7a9c1d3e5f7a9c1d3e5f7a",
+    status: "INGESTED",
+    sourceTxHash: null,
+    sourceBlockNumber: null,
+    creditcoinVerificationTxHash: null,
+    explorerUrl: null,
+  },
+];
+
+export async function GET() {
+  const data = z.array(PhysicalEvent).parse(mockEvents);
+  return NextResponse.json(data);
+}
