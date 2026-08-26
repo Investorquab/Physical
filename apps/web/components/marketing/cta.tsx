@@ -17,7 +17,7 @@ export function Cta() {
             Launch app
           </a>
           <a
-            href="#how-it-works"
+            href="https://github.com/Investorquab/Physical/tree/main/docs"
             className="rounded-base border border-border px-6 py-3 text-sm font-medium text-text transition-colors hover:border-text-muted"
           >
             Read the docs

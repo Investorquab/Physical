@@ -61,7 +61,7 @@ function SurveyChart({ stations, providerStatusById }: { stations: Station[]; pr
   const { points, bounds } = projectStations(stations);
 
   const gridLines = [];
-  for (let x = 0; x <= CHART_WIDTH; x += 32) {
+  for (let x = 0; x <= CHART_WIDTH; x += 64) {
     gridLines.push(
       <line key={`v-${x}`} x1={x} y1={0} x2={x} y2={CHART_HEIGHT} stroke="var(--color-border)" strokeWidth="0.75" />
     );

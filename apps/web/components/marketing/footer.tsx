@@ -18,8 +18,8 @@ const columns = [
   {
     title: "Protocol",
     links: [
-      { label: "GitHub", href: "https://github.com" },
-      { label: "Documentation", href: "#" },
+      { label: "GitHub", href: "https://github.com/Investorquab/Physical" },
+      { label: "Documentation", href: "https://github.com/Investorquab/Physical/tree/main/docs" },
     ],
   },
 ];
