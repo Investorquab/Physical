@@ -14,7 +14,7 @@ const providerTone: Record<string, string> = {
   DISCONNECTED: "var(--color-error)",
 };
 
-const CHART_WIDTH = 640;
+const CHART_WIDTH = 1100;
 const CHART_HEIGHT = 300;
 const PADDING = 48;
 
@@ -73,7 +73,7 @@ function SurveyChart({ stations, providerStatusById }: { stations: Station[]; pr
   }
 
   return (
-    <div className="max-w-2xl overflow-hidden rounded-base border border-border bg-bg-raised p-6">
+    <div className="w-full overflow-hidden rounded-base border border-border bg-bg-raised p-6">
       <svg
         viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}
         className="block h-auto w-full"
