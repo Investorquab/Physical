@@ -129,7 +129,7 @@ async function runOnce(adapter: OpenAQAdapter, submitter: SepoliaSubmitter) {
 async function main() {
   const adapter = new OpenAQAdapter({
     apiKey: process.env.OPENAQ_API_KEY ?? "",
-    locationId: process.env.OPENAQ_LOCATION_ID ?? "",
+    locationIds: (process.env.OPENAQ_LOCATION_IDS ?? "").split(",").map((s) => s.trim()).filter(Boolean),
     targetParameter: process.env.OPENAQ_TARGET_PARAMETER ?? "pm25",
   });
 
