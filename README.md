@@ -8,6 +8,13 @@ on-chain state, using the **Attestcoin Protocol**. Nothing fabricated.
 Nothing simulated. Every number on this dashboard traces back to a real
 transaction you can independently check on a block explorer.
 
+> **Testnet only.** PHYSICAL uses real public testnet contracts and a
+> real external data source. It does not custody real funds, and
+> Attestcoin Protocol verification proves that a specific transaction was
+> included on the source chain — it does not, and cannot, independently
+> prove that the underlying physical sensor itself is truthful. See
+> "What Attestcoin does and does not prove" below.
+
 - **Live app:** https://physical-depin.vercel.app
 - **Live API:** https://185-7-81-139.sslip.io/api/v1
 - **Sector:** DePIN / RWA verification infrastructure
@@ -68,6 +75,12 @@ service-level action) instead of a manual claims process.
 
 ## Attestcoin Protocol integration — summary
 
+Remove the Attestcoin Protocol verification step from this pipeline and
+PHYSICAL cannot determine whether a reading is genuine — the coordination
+rule and settlement contract have no other basis to act on. That
+dependency is the entire point of the integration, not decoration around
+it.
+
 We use the **native precompile verifier** (address `0x0FD2` on Creditcoin),
 not the legacy STARK-proving generation of the protocol. Concretely:
 
@@ -95,6 +108,19 @@ Full technical writeup: [`docs/USC_INTEGRATION.md`](docs/USC_INTEGRATION.md).
 | `EvmV1Decoder` (library) | Creditcoin CC3 Testnet | [`0x104E6D889875c5bac04c6a17cfb66d74b4638e95`](https://creditcoin-testnet.blockscout.com/address/0x104E6D889875c5bac04c6a17cfb66d74b4638e95) |
 | `PhysicalASC` | Creditcoin CC3 Testnet | [`0x2aF3203cCeAE275a990a540c49D282e41199121c`](https://creditcoin-testnet.blockscout.com/address/0x2aF3203cCeAE275a990a540c49D282e41199121c) |
 | `PhysicalSettlement` | Creditcoin CC3 Testnet | [`0x5b4e110eB1A4Ddba72fbd24a2168CEAA000a3f6D`](https://creditcoin-testnet.blockscout.com/address/0x5b4e110eB1A4Ddba72fbd24a2168CEAA000a3f6D) |
+
+### What Attestcoin Protocol does and does not prove
+
+**Proves:** that a specific transaction — containing our normalized
+reading — was genuinely included in a specific, attested Ethereum Sepolia
+block. This is checked cryptographically (Merkle inclusion + continuity
+proof) and independently verifiable by anyone on Blockscout.
+
+**Does not prove:** that the underlying physical sensor reading itself is
+truthful. That trust boundary still runs through OpenAQ and its station
+operators — Attestcoin Protocol verifies cross-chain transaction
+inclusion, not real-world sensor accuracy. We state this plainly rather
+than overclaim it.
 
 ## Architecture / tech stack
 
