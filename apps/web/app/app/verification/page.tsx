@@ -55,7 +55,12 @@ export default function VerificationPage() {
             </thead>
             <tbody>
               {verificationEvents.map((event) => (
-                <tr key={event.id} className="border-b border-border/60 last:border-b-0">
+                <tr
+                  key={event.id}
+                  data-testid="verification-row"
+                  data-status={event.status}
+                  className="border-b border-border/60 last:border-b-0"
+                >
                   <td className="px-4 py-4 font-mono text-xs text-text-muted">
                     {event.eventHash.slice(0, 10)}...{event.eventHash.slice(-6)}
                   </td>
@@ -63,9 +68,20 @@ export default function VerificationPage() {
                     <StatusBadge status={event.status} />
                   </td>
                   <td className="px-4 py-4 font-mono text-xs text-text-muted">
-                    {event.creditcoinVerificationTxHash
-                      ? `${event.creditcoinVerificationTxHash.slice(0, 10)}...${event.creditcoinVerificationTxHash.slice(-6)}`
-                      : "Pending"}
+                    {event.creditcoinVerificationTxHash && event.explorerUrl ? (
+                      
+                        href={event.explorerUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-testid="verification-tx-link"
+                        className="text-live underline underline-offset-2 hover:text-text"
+                      >
+                        {event.creditcoinVerificationTxHash.slice(0, 10)}...
+                        {event.creditcoinVerificationTxHash.slice(-6)}
+                      </a>
+                    ) : (
+                      "Pending"
+                    )}
                   </td>
                 </tr>
               ))}
