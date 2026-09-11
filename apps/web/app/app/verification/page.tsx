@@ -69,7 +69,7 @@ export default function VerificationPage() {
                   </td>
                   <td className="px-4 py-4 font-mono text-xs text-text-muted">
                     {event.creditcoinVerificationTxHash && event.explorerUrl ? (
-                      
+                        <a
                         href={event.explorerUrl}
                         target="_blank"
                         rel="noreferrer"
