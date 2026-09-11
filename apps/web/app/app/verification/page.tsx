@@ -68,7 +68,7 @@ export default function VerificationPage() {
                     <StatusBadge status={event.status} />
                   </td>
                   <td className="px-4 py-4 font-mono text-xs text-text-muted">
-                        {event.creditcoinVerificationTxHash && event.explorerUrl ? (
+                    {event.creditcoinVerificationTxHash && event.explorerUrl ? (
                       
                         href={event.explorerUrl}
                         target="_blank"
